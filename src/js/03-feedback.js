@@ -1,8 +1,9 @@
 var throttle = require('lodash.throttle');
+var throttled = throttle(listenForm, 500, { trailing: false });
 
 const form = document.querySelector('form');
 
-form.addEventListener('input', throttle(listenForm, 500));
+form.addEventListener('input', throttled);
 form.addEventListener('submit', updateForm);
 
 function listenForm(event) {
