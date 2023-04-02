@@ -1,6 +1,8 @@
+var throttle = require('lodash.throttle');
+
 const form = document.querySelector('form');
 
-form.addEventListener('input', listenForm);
+form.addEventListener('input', throttle(listenForm, 500));
 form.addEventListener('submit', updateForm);
 
 function listenForm(event) {
@@ -18,9 +20,14 @@ function listenForm(event) {
 
 const savedSettings = localStorage.getItem('feedback-form-state');
 const parsedSettings = JSON.parse(savedSettings);
-console.log(parsedSettings); // settings object
+console.log(parsedSettings);
 
 form.email.value = parsedSettings.email;
 form.message.value = parsedSettings.message;
 
-function updateForm(event) {}
+function updateForm(event) {
+  event.preventDefault();
+  console.log({ email: form[0].value, message: form[1].value });
+  form.reset();
+  localStorage.clear();
+}
